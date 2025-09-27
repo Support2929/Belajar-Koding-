@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1></h1></h1>
+            <p class="subtitle"></p>
+        </div>
+        <nav>
+            <button id="btnLearn" class="active">📚 Belajar Coding</button>
+            <button id="btnTyping">⚡ Tes Kecepatan</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="learnSection">
+            <h2 class="section-title">Mode Belajar</h2>
+            <div class="mentor-section">
+                <div class="mentor-avatar float">🧑‍💻</div>
+                <div>
+                    <div class="mentor-name">Asisten Koding</div>
+                    <p id="mentorText">Selamat datang! Pilih bahasa pemrograman dan level untuk memulai belajar bersama saya.</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="languageSelectLearn">Pilih Bahasa:</label>
+                <select id="languageSelectLearn"></select>
+            </div>
+            <div id="levelDiv" class="hidden">
+                <label for="levelSelect">Pilih Level:</label>
+                <select id="levelSelect"></select>
+            </div>
+            <div id="questionDiv" class="hidden">
+                <p id="questionDescription"></p>
+                <pre id="questionCode" aria-label="Kode Soal"></pre>
+                <label for="answerInput">Tulis ulang kode di atas dengan benar:</label>
+                <textarea id="answerInput" rows="6" spellcheck="false" autocomplete="off" placeholder="Tulis kodemu di sini..."></textarea>
+                <button id="btnCheck">Cek Jawaban</button>
+                <div id="feedback" role="alert" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <section id="typingSection" class="hidden">
+            <div id="codingTestSetup">
+                <h2 class="section-title">Mode Tes Kecepatan (1 Menit)</h2>
+                <div class="mentor-section">
+                    <div class="mentor-avatar float">⚡️</div>
+                    <div>
+                        <div class="mentor-name">Asisten Koding</div>
+                        <p>Siap untuk tantangan? Pilih bahasa, tekan mulai, dan ketik kode secepat dan setepat mungkin!</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="languageSelectTyping">Pilih Bahasa:</label>
+                    <select id="languageSelectTyping"></select>
+                </div>
+                <button id="startCodingTestBtn">Mulai Tes</button>
+            </div>
+
+            <div id="codingTestActive" class="hidden">
+                <div class="test-header">
+                    <div class="timer-display" id="timer">01:00</div>
+                    <div id="level-indicator">Level 1/5</div>
+                </div>
+                <div id="codingChallengeText" aria-live="polite"></div>
+                <textarea id="typingInput" rows="8" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ketik kode yang ditampilkan di atas di sini..."></textarea>
+            </div>
+
+            <div id="resultsScreen" class="hidden">
+                <h3 class="results-title">Waktu Habis!</h3>
+                <div class="results-grid">
+                    <div class="result-item"><div class="label">Skor KPM</div><div class="value" id="finalSpeed">0</div></div>
+                    <div class="result-item"><div class="label">Akurasi</div><div class="value" id="finalAccuracy">0%</div></div>
+                    <div class="result-item"><div class="label">Level Selesai</div><div class="value" id="finalLevels">0</div></div>
+                    <div class="result-item"><div class="label">Total Kesalahan</div><div class="value" id="finalErrors">0</div></div>
+                </div>
+                <button id="tryAgainBtn">Coba Lagi</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Versi 3.0 &copy; 2025 - All rights reserved</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+  </html>
+                  
