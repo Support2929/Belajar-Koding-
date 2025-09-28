@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- DATABASE SOAL ---
+    // --- DATABASE SOAL (Sudah Anda sediakan) ---
     const questions = {
         bash: [
             { desc: "Menampilkan teks 'Halo Bash!' ke terminal.", code: 'echo "Halo Bash!"', mentor: "Perintah `echo` adalah alat dasar untuk mencetak teks atau nilai variabel ke standar output di terminal." },
@@ -91,4 +91,4 @@ document.addEventListener('DOMContentLoaded', () => {
             { desc: "Membuat tautan (hyperlink) ke situs web lain.", code: '<a href="https://www.google.com">Kunjungi Google</a>', mentor: "Tag `<a>` (Anchor) membutuhkan atribut `href` (Hypertext Reference) untuk menentukan tujuan link." },
             { desc: "Menampilkan gambar pada halaman web.", code: '<img src="logo.png" alt="Logo Perusahaan">', mentor: "Tag `<img>` bersifat self-closing. Atribut `src` adalah sumber gambar dan `alt` (teks alternatif) penting untuk aksesibilitas." },
             { desc: "Membuat daftar tak berurutan (unordered list).", code: "<ul>\n  <li>Item pertama</li>\n  <li>Item kedua</li>\n</ul>", mentor: "`<ul>` mendefinisikan list-nya, dan setiap `<li>` (List Item) adalah satu item di dalam daftar tersebut." },
-            { desc: "Menggunakan `<div>` sebagai kontainer generik.", code: '<div class="artikel">\n  <h2>Judul Artikel</h2>\n  <p>Isi artikel...</p>\n</div>', mentor: "`<div>` adalah elemen blok yang sering digunakan 
+            { desc: "Menggunakan `<div>` sebagai kontainer generik.", code: '<div class="artikel">\n  <h2>Judul Artikel</h2>\n  <p>Isi artikel...</p>\n</div>', mentor: "`<div>` adalah elemen blok 
