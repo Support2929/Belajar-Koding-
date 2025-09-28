@@ -1,94 +1,251 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- DATABASE SOAL (Sudah Anda sediakan) ---
+
+    // --- DATABASE SOAL ---
     const questions = {
-        bash: [
-            { desc: "Menampilkan teks 'Halo Bash!' ke terminal.", code: 'echo "Halo Bash!"', mentor: "Perintah `echo` adalah alat dasar untuk mencetak teks atau nilai variabel ke standar output di terminal." },
-            { desc: "Membuat variabel NAMA dan menampilkannya.", code: 'NAMA="Dunia"\necho "Halo, $NAMA"', mentor: "Di Bash, variabel dipanggil menggunakan tanda dolar ($). Ingat, tidak boleh ada spasi di sekitar tanda sama dengan (=)." },
-            { desc: "Struktur kondisi 'if' untuk membandingkan string.", code: 'if [ "$NAMA" == "Dunia" ]; then\n  echo "Nama cocok"\nfi', mentor: "Spasi di dalam kurung siku `[ ... ]` sangat penting. Tanda kutip ganda di sekitar variabel mencegah error jika variabel kosong." },
-            { desc: "Loop 'for' untuk mengulang angka 1 sampai 3.", code: 'for i in {1..3}; do\n  echo "Nomor $i"\ndone', mentor: "Brace expansion `{1..3}` adalah cara ringkas untuk membuat urutan angka atau string untuk perulangan." },
-            { desc: "Membuat dan memanggil fungsi sederhana.", code: 'sapa() {\n  echo "Ini dari fungsi!"\n}\nsapa', mentor: "Fungsi membantu mengelompokkan perintah yang dapat digunakan kembali, membuat skrip Anda lebih terstruktur." },
-            { desc: "Membaca input dari pengguna dan menyimpannya di variabel.", code: 'echo "Siapa namamu?"\nread nama_pengguna\necho "Halo, $nama_pengguna"', mentor: "Perintah `read` menjeda skrip dan menunggu pengguna mengetik sesuatu lalu menekan Enter." },
-            { desc: "Menggunakan loop 'while' untuk menghitung mundur.", code: 'n=3\nwhile [ $n -gt 0 ]; do\n  echo "$n..."\n  n=$((n-1))\ndone', mentor: "Loop `while` akan terus berjalan selama kondisi di dalam `[ ... ]` bernilai benar. `-gt` artinya 'greater than'." },
-            { desc: "Membuat array dan mengakses elemennya.", code: 'FILES=("laporan.txt" "data.csv" "gambar.jpg")\necho ${FILES[0]}', mentor: "Bash menggunakan array berbasis nol, jadi elemen pertama diakses dengan indeks `[0]`." },
-            { desc: "Loop 'for' untuk setiap item dalam array.", code: 'for FILE in "${FILES[@]}"; do\n  echo "Memproses $FILE"\ndone', mentor: 'Sintaks `"${FILES[@]}"` adalah cara aman untuk mengulang setiap elemen dalam array, bahkan yang mengandung spasi.' },
-            { desc: "Kondisi 'case' sebagai alternatif if-elif-else.", code: 'BUAH="apel"\ncase $BUAH in\n  "apel") echo "Buah ini merah.";;\n  "pisang") echo "Buah ini kuning.";;\nesac', mentor: "Struktur `case` sangat berguna ketika Anda perlu memeriksa satu variabel terhadap banyak kemungkinan nilai." }
-        ],
-        c: [
-            { desc: "Program C dasar untuk mencetak teks.", code: '#include <stdio.h>\n\nint main() {\n  printf("Halo C!");\n  return 0;\n}', mentor: "Fungsi `main()` adalah titik awal eksekusi setiap program C. `#include <stdio.h>` memasukkan library standar untuk input-output." },
-            { desc: "Deklarasi variabel integer untuk menyimpan angka.", code: 'int angka = 10;', mentor: "Di C, Anda harus mendeklarasikan tipe data (seperti `int` untuk integer) sebelum nama variabel." },
-            { desc: "Menggunakan kondisi 'if' untuk logika percabangan.", code: 'if (angka > 5) {\n  printf("Lebih besar dari 5");\n}', mentor: "Blok kode di dalam `if` hanya akan dieksekusi jika kondisi di dalam kurung `()` bernilai benar." },
-            { desc: "Loop 'for' untuk melakukan iterasi sebanyak 3 kali.", code: 'for (int i = 0; i < 3; i++) {\n  printf("%d\\n", i);\n}', mentor: "Struktur `for` terdiri dari inisialisasi, kondisi, dan increment. `%d` adalah penentu format untuk mencetak integer." },
-            { desc: "Membuat fungsi `tambah` yang menerima dua integer dan mengembalikan hasilnya.", code: 'int tambah(int a, int b) {\n  return a + b;\n}', mentor: "Fungsi membantu memecah masalah besar menjadi bagian-bagian kecil yang dapat dikelola dan digunakan kembali." },
-            { desc: "Deklarasi sebuah array integer.", code: 'int nilai[5] = {80, 90, 75, 100, 85};', mentor: "Array adalah kumpulan data dengan tipe yang sama. Di C, ukurannya tetap. `nilai[0]` akan memberikan `80`." },
-            { desc: "Menggunakan loop 'while' untuk iterasi.", code: 'int i = 0;\nwhile (i < 3) {\n  printf("%d\\n", i);\n  i++;\n}', mentor: "Loop `while` akan terus berjalan selama kondisinya benar. Jangan lupa untuk menaikkan nilai `i` agar loop berhenti." },
-            { desc: "Deklarasi pointer yang menunjuk ke alamat variabel.", code: 'int var = 20;\nint *ip = &var;', mentor: "Pointer menyimpan alamat memori dari variabel lain. `*ip` akan mengakses nilai (`20`), sedangkan `ip` berisi alamat." },
-            { desc: "Mendefinisikan sebuah 'struct' untuk mengelompokkan data.", code: 'struct Mahasiswa {\n  char nama[50];\n  int nim;\n};', mentor: "Struct adalah tipe data komposit yang memungkinkan Anda menggabungkan beberapa variabel menjadi satu unit." },
-            { desc: "Menggunakan `scanf` untuk mendapatkan input dari pengguna.", code: 'int umur;\nprintf("Masukkan umur Anda: ");\nscanf("%d", &umur);', mentor: "`scanf` membaca input yang diformat dari keyboard. Simbol `&` diperlukan untuk memberikan alamat memori variabel." }
-        ],
-        cpp: [
-            { desc: "Program C++ dasar untuk mencetak teks.", code: '#include <iostream>\n\nint main() {\n  std::cout << "Halo C++!";\n  return 0;\n}', mentor: "C++ menggunakan stream (`std::cout`) untuk operasi output, yang lebih fleksibel daripada `printf` di C." },
-            { desc: "Deklarasi variabel string menggunakan library string.", code: '#include <string>\nstd::string nama = "Budi";', mentor: "Kelas `std::string` menyediakan banyak fungsi berguna untuk memanipuulasi teks, membuatnya lebih aman dan mudah." },
-            { desc: "Menggunakan kondisi 'if' untuk membandingkan string.", code: 'if (nama == "Budi") {\n  std::cout << "Halo Budi!";\n}', mentor: "Berbeda dengan C, membandingkan string di C++ semudah menggunakan operator `==`." },
-            { desc: "Loop 'for' sederhana untuk iterasi.", code: 'for (int i = 0; i < 3; ++i) {\n  std::cout << i << std::endl;\n}', mentor: "`std::endl` tidak hanya menyisipkan baris baru tetapi juga membersihkan buffer output. `\\n` seringkali lebih cepat." },
-            { desc: "Membuat fungsi 'void' yang tidak mengembalikan nilai.", code: 'void sapa() {\n  std::cout << "Halo!";\n}', mentor: "Gunakan tipe `void` jika sebuah fungsi melakukan suatu aksi tetapi tidak perlu mengembalikan sebuah nilai." },
-            { desc: "Menggunakan `vector`, sebuah array dinamis.", code: '#include <vector>\nstd::vector<int> angka = {10, 20, 30};', mentor: "`std::vector` adalah wadah sekuensial yang dapat mengubah ukurannya secara otomatis. Jauh lebih fleksibel daripada array C-style." },
-            { desc: "Loop 'for' berbasis jangkauan (range-based for loop).", code: 'for (int n : angka) {\n  std::cout << n << std::endl;\n}', mentor: "Ini adalah cara modern dan lebih aman untuk mengulang setiap elemen dalam sebuah wadah seperti `vector`." },
-            { desc: "Mendefinisikan sebuah 'class' dasar.", code: 'class Mobil {\npublic:\n  std::string merek;\n  int tahun;\n};', mentor: "Class adalah inti dari Pemrograman Berorientasi Objek (OOP) di C++, menggabungkan data (atribut) dan fungsi (metode)." },
-            { desc: "Membuat objek (instance) dari sebuah class.", code: 'Mobil mobilSaya;\nmobilSaya.merek = "Toyota";\nmobilSaya.tahun = 2025;', mentor: "Setelah class didefinisikan, Anda dapat membuat variabel (objek) dari tipe class tersebut dan mengakses anggotanya." },
-            { desc: "Menggunakan `std::cin` untuk mendapatkan input dari pengguna.", code: 'int umur;\nstd::cout << "Masukkan umur: ";\nstd::cin >> umur;', mentor: "`std::cin` adalah stream input standar di C++, digunakan untuk membaca data dari keyboard." }
-        ],
-        csharp: [
-            { desc: "Mencetak teks ke konsol di C#.", code: 'Console.WriteLine("Halo C#!");', mentor: "Method `Console.WriteLine` digunakan untuk menampilkan output ke konsol, secara otomatis menambahkan baris baru." },
-            { desc: "Membuat variabel string untuk menyimpan teks.", code: 'string nama = "Dewi";', mentor: "`string` (dengan 's' kecil) adalah alias untuk kelas `System.String` di .NET Framework. Ini adalah tipe data referensi." },
-            { desc: "Membuat variabel integer untuk menyimpan bilangan bulat.", code: 'int angka = 100;', mentor: "`int` adalah tipe data nilai untuk bilangan bulat 32-bit. Ini adalah salah satu tipe yang paling umum digunakan." },
-            { desc: "Membuat Method (fungsi) yang tidak mengembalikan nilai.", code: 'public void Sapa() {\n  Console.WriteLine("Halo!");\n}', mentor: "Di C#, fungsi disebut Method. Konvensi penamaan menyarankan menggunakan PascalCase (huruf awal kapital) untuk nama method." },
-            { desc: "Struktur kondisi `if` untuk percabangan logika.", code: 'if (angka >= 100) {\n  Console.WriteLine("Nilai Maksimal");\n}', mentor: "Kondisi `if` mengevaluasi ekspresi boolean dan menjalankan kode di dalam blok jika hasilnya `true`." },
-            { desc: "Membuat List, koleksi objek yang dinamis.", code: 'var nama = new List<string> { "Ani", "Budi", "Cici" };', mentor: "Generic `List<T>` adalah koleksi yang sangat fleksibel dan sering digunakan sebagai pengganti array karena ukurannya bisa berubah." },
-            { desc: "Loop `foreach` untuk iterasi setiap item dalam List.", code: 'foreach (var n in nama) {\n  Console.WriteLine($"Halo, {n}");\n}', mentor: "Loop `foreach` menyederhanakan iterasi pada koleksi. Interpolasi string `$` membuat format teks menjadi sangat mudah." },
-            { desc: "Mendefinisikan sebuah `class` dasar.", code: 'public class Kucing {\n  public string Nama { get; set; }\n  public int Umur { get; set; }\n}', mentor: "Properti auto-implemented (`{ get; set; }`) adalah cara singkat untuk membuat field privat dengan accessor publik." },
-            { desc: "Membuat instance baru dari sebuah class.", code: 'Kucing Peliharaan = new Kucing { Nama = "Oyen", Umur = 3 };', mentor: "Sintaks object initializer memungkinkan Anda untuk menetapkan nilai ke properti pada saat pembuatan objek." },
-            { desc: "Menggunakan `switch` statement untuk multi-kondisi.", code: 'switch (Peliharaan.Nama) {\n  case "Oyen":\n    Console.WriteLine("Kucing oranye.");\n    break;\n  default:\n    Console.WriteLine("Kucing lain.");\n    break;\n}', mentor: "`switch` adalah alternatif yang lebih bersih untuk rantai `if-else if` yang panjang ketika membandingkan satu variabel." }
+        html: [
+            { desc: "Membuat elemen paragraf untuk menampilkan teks biasa.", code: "<p>Ini adalah sebuah paragraf.</p>", mentor: "Tag `<p>` adalah elemen dasar untuk teks. Pastikan selalu ada tag penutup `</p>`." },
+            { desc: "Membuat judul utama halaman.", code: "<h1>Judul Paling Penting</h1>", mentor: "Gunakan `<h1>` hanya sekali per halaman untuk judul utama. Ini penting untuk SEO." },
+            { desc: "Membuat tautan (hyperlink) ke situs web lain.", code: '<a href="https://www.google.com">Kunjungi Google</a>', mentor: "Atribut `href` sangat penting, tanpa itu link tidak akan berfungsi." },
+            { desc: "Menampilkan gambar pada halaman web.", code: '<img src="logo.png" alt="Logo Perusahaan">', mentor: "Atribut `alt` wajib diisi untuk aksesibilitas, ini membantu pengguna tuna netra." },
+            { desc: "Membuat daftar tak berurutan (unordered list).", code: "<ul>\n  <li>Item pertama</li>\n  <li>Item kedua</li>\n</ul>", mentor: "`<ul>` untuk listnya, `<li>` untuk setiap item di dalamnya. Perhatikan indentasi agar rapi." }
         ],
         css: [
-            { desc: "Memberi warna biru pada semua elemen paragraf `<p>`.", code: "p {\n  color: blue;\n}", mentor: "Ini adalah 'rule' CSS. `p` adalah selector, `color` adalah property, dan `blue` adalah value. Ini menargetkan semua paragraf." },
-            { desc: "Mengubah ukuran font untuk seluruh halaman.", code: "body {\n  font-size: 16px;\n}", mentor: "Menerapkan gaya pada `body` adalah cara umum untuk menetapkan gaya dasar yang akan diwarisi oleh elemen lain." },
-            { desc: "Memberi warna latar pada elemen dengan class 'container'.", code: ".container {\n  background-color: #f0f0f0;\n}", mentor: "Selector class (diawali dengan titik `.`) memungkinkan Anda menerapkan gaya pada elemen HTML mana pun yang memiliki atribut `class='container'`." },
-            { desc: "Membuat border solid hitam di sekitar semua `<div>`.", code: "div {\n  border: 1px solid black;\n}", mentor: "Properti shorthand `border` menetapkan lebar, gaya, dan warna border dalam satu baris." },
-            { desc: "Membuat sudut elemen dengan class 'card' menjadi melengkung.", code: ".card {\n  border-radius: 8px;\n}", mentor: "`border-radius` memberikan tampilan yang lebih modern dan lembut pada elemen kotak." },
-            { desc: "Mengatur jarak di dalam (padding) dan di luar (margin) elemen.", code: ".box {\n  padding: 10px;\n  margin: 15px;\n}", mentor: "Padding adalah ruang di dalam border, sedangkan Margin adalah ruang di luar border. Ini adalah inti dari Box Model CSS." },
-            { desc: "Mengubah elemen menjadi 'Flexbox' untuk tata letak.", code: ".flex-container {\n  display: flex;\n  justify-content: center;\n}", mentor: "Flexbox adalah model tata letak yang kuat untuk menyusun, meratakan, dan mendistribusikan ruang antar item dalam sebuah container." },
-            { desc: "Memberi gaya pada link saat kursor mouse berada di atasnya.", code: "a:hover {\n  color: red;\n  text-decoration: underline;\n}", mentor: "Pseudo-class `:hover` memungkinkan Anda membuat halaman web yang interaktif dengan mengubah gaya saat interaksi pengguna." },
-            { desc: "Membuat transisi yang mulus untuk perubahan warna.", code: "button {\n  transition: background-color 0.3s ease;\n}", mentor: "Properti `transition` membuat perubahan properti (seperti pada `:hover`) terlihat mulus dan animasi, bukan instan." },
-            { desc: "Menerapkan gaya yang berbeda untuk layar kecil (desain responsif).", code: "@media (max-width: 600px) {\n  body {\n    font-size: 14px;\n  }\n}", mentor: "Media Queries adalah pilar dari Desain Web Responsif, memungkinkan Anda membuat situs yang terlihat bagus di semua perangkat." }
+            { desc: "Memberi warna biru pada semua elemen paragraf.", code: "p {\n  color: blue;\n}", mentor: "`p` adalah selector, `color` adalah properti, dan `blue` adalah nilainya. Jangan lupa titik koma." },
+            { desc: "Memberi warna latar pada elemen dengan class 'container'.", code: ".container {\n  background-color: #f0f0f0;\n}", mentor: "Gunakan titik `.` untuk memilih class. Nama class di CSS harus sama persis dengan di HTML." },
+            { desc: "Membuat sudut elemen dengan class 'card' menjadi melengkung.", code: ".card {\n  border-radius: 8px;\n}", mentor: "Nilai `px` (piksel) menentukan seberapa melengkung sudutnya. Semakin besar, semakin bulat." },
+            { desc: "Mengatur jarak di dalam (padding) dan di luar (margin) elemen.", code: ".box {\n  padding: 10px;\n  margin: 15px;\n}", mentor: "Ingat, `padding` untuk ruang di dalam border, `margin` untuk ruang di luar border." },
+            { desc: "Memberi gaya pada link saat kursor mouse berada di atasnya.", code: "a:hover {\n  color: red;\n}", mentor: "Pseudo-class `:hover` sangat bagus untuk memberikan feedback visual kepada pengguna." }
         ],
-        dart: [
-            { desc: "Fungsi `main` sebagai titik masuk aplikasi Dart.", code: "void main() {\n  print('Halo Dart!');\n}", mentor: "Semua program Dart yang dapat dieksekusi dimulai dengan fungsi `main()`. `print()` adalah fungsi bawaan untuk output." },
-            { desc: "Deklarasi variabel menggunakan `var` (tipe disimpulkan).", code: "var nama = 'Dart';", mentor: "Dart adalah bahasa yang diketik secara statis, tetapi `var` memungkinkan kompiler untuk menyimpulkan tipe data, membuat kode lebih ringkas." },
-            { desc: "Deklarasi variabel dengan tipe data eksplisit.", code: "int umur = 7;", mentor: "Menentukan tipe secara eksplisit seperti `int`, `String`, atau `double` dapat membuat kode Anda lebih jelas dan mudah dibaca." },
-            { desc: "Membuat konstanta yang nilainya tidak akan pernah berubah.", code: "final kota = 'Jakarta';\nconst PI = 3.14;", mentor: "Gunakan `final` untuk variabel yang hanya di-set sekali. Gunakan `const` untuk nilai yang sudah diketahui saat kompilasi." },
-            { desc: "Struktur kondisi 'if-else' untuk percabangan logika.", code: "if (umur > 5) {\n  print('Bukan balita');\n} else {\n  print('Masih balita');\n}", mentor: "`if-else` memungkinkan program Anda untuk mengambil jalur eksekusi yang berbeda berdasarkan suatu kondisi." },
-            { desc: "Membuat `List` (array) di Dart.", code: "var angka = [10, 20, 30, 40];", mentor: "List adalah koleksi objek yang terurut. Anda dapat mengakses elemennya menggunakan indeks, misalnya `angka[0]`." },
-            { desc: "Loop `for` untuk mengulang setiap item dalam List.", code: "for (var n in angka) {\n  print(n);\n}", mentor: "Loop `for-in` adalah cara yang mudah dibaca dan efisien untuk melakukan iterasi pada semua elemen dalam koleksi." },
-            { desc: "Membuat `Map` untuk menyimpan data key-value.", code: "var orang = {\n  'nama': 'Budi',\n  'umur': 25\n};", mentor: "Map (juga dikenal sebagai dictionary atau hash map) sangat berguna untuk menyimpan data yang berpasangan." },
-            { desc: "Membuat fungsi yang menerima parameter dan mengembalikan nilai.", code: "int tambah(int a, int b) {\n  return a + b;\n}", mentor: "Fungsi adalah blok kode yang dapat digunakan kembali. Menentukan tipe parameter dan nilai kembali adalah praktik yang baik." },
-            { desc: "Sintaks ringkas `=>` (fat arrow) untuk fungsi satu baris.", code: "int kurang(int a, int b) => a - b;", mentor: "Jika sebuah fungsi hanya berisi satu ekspresi, Anda dapat menggunakan sintaks fat arrow `=>` untuk membuatnya lebih ringkas." }
-        ],
-        go: [
-            { desc: "Program Go dasar untuk mencetak teks.", code: 'package main\n\nimport "fmt"\n\nfunc main() {\n  fmt.Println("Halo Go!")\n}', mentor: "Setiap program Go yang bisa dieksekusi harus memiliki paket `main` dan fungsi `main`. Paket `fmt` berisi fungsi I/O." },
-            { desc: "Deklarasi variabel dengan tipe data secara eksplisit.", code: 'var nama string = "Go-lang"', mentor: "Ini adalah cara deklarasi variabel standar di Go. Tipe data ditulis setelah nama variabel." },
-            { desc: "Deklarasi singkat `:=` untuk variabel baru.", code: 'umur := 30', mentor: "Operator `:=` (short assignment) menyimpulkan tipe data dan mendeklarasikan variabel. Hanya bisa digunakan di dalam fungsi." },
-            { desc: "Loop 'for', satu-satunya jenis loop di Go.", code: 'for i := 0; i < 3; i++ {\n  fmt.Println(i)\n}', mentor: "Go menyederhanakan perulangan dengan hanya menyediakan `for`, yang dapat digunakan seperti `for`, `while`, atau `for-each` di bahasa lain." },
-            { desc: "Membuat fungsi dengan parameter dan nilai kembali.", code: 'func tambah(a int, b int) int {\n  return a + b\n}', mentor: "Di Go, jika beberapa parameter memiliki tipe yang sama, Anda bisa menuliskannya sebagai `(a, b int)`." },
-            { desc: "Membuat sebuah `slice`, yang lebih fleksibel daripada array.", code: 'angka := []int{10, 20, 30}', mentor: "Slice adalah wrapper yang kuat dan fleksibel di atas array. Sebagian besar waktu Anda akan menggunakan slice, bukan array." },
-            { desc: "Loop `for` dengan `range` untuk iterasi pada slice.", code: 'for index, value := range angka {\n  fmt.Printf("indeks: %d, nilai: %d\\n", index, value)\n}', mentor: "`range` mengembalikan indeks dan nilai dari setiap elemen. Gunakan `_` jika Anda tidak memerlukan salah satunya." },
-            { desc: "Membuat `map` untuk menyimpan data key-value.", code: 'mahasiswa := make(map[string]int)', mentor: "Gunakan fungsi `make` bawaan untuk membuat map, slice, atau channel. `map[string]int` berarti key-nya string, value-nya integer." },
-            { desc: "Mendefinisikan sebuah `struct` untuk data terstruktur.", code: 'type Mobil struct {\n  Merek string\n  Tahun int\n}', mentor: "Struct adalah tipe data komposit yang digunakan untuk mengelompokkan data. Nama field yang diawali huruf kapital bersifat publik." },
-            { desc: "Menangani error, sebuah konsep penting di Go.", code: 'val, err := strconv.Atoi("123")\nif err != nil {\n  fmt.Println("Terjadi error:", err)\n}', mentor: "Di Go, fungsi yang bisa gagal biasanya mengembalikan nilai dan error. Memeriksa `err != nil` adalah pola yang sangat umum." }
-        ],
-        html: [
-            { desc: "Membuat elemen paragraf untuk menampilkan teks biasa.", code: "<p>Ini adalah sebuah paragraf.</p>", mentor: "Tag `<p>` (Paragraf) adalah salah satu elemen paling dasar dan umum digunakan untuk mengelompokkan teks." },
-            { desc: "Membuat judul utama halaman.", code: "<h1>Judul Paling Penting</h1>", mentor: "Tag heading dari `<h1>` (paling penting) hingga `<h6>` (kurang penting) digunakan untuk mendefinisikan hierarki judul pada halaman Anda." },
-            { desc: "Membuat tautan (hyperlink) ke situs web lain.", code: '<a href="https://www.google.com">Kunjungi Google</a>', mentor: "Tag `<a>` (Anchor) membutuhkan atribut `href` (Hypertext Reference) untuk menentukan tujuan link." },
-            { desc: "Menampilkan gambar pada halaman web.", code: '<img src="logo.png" alt="Logo Perusahaan">', mentor: "Tag `<img>` bersifat self-closing. Atribut `src` adalah sumber gambar dan `alt` (teks alternatif) penting untuk aksesibilitas." },
-            { desc: "Membuat daftar tak berurutan (unordered list).", code: "<ul>\n  <li>Item pertama</li>\n  <li>Item kedua</li>\n</ul>", mentor: "`<ul>` mendefinisikan list-nya, dan setiap `<li>` (List Item) adalah satu item di dalam daftar tersebut." },
-            { desc: "Menggunakan `<div>` sebagai kontainer generik.", code: '<div class="artikel">\n  <h2>Judul Artikel</h2>\n  <p>Isi artikel...</p>\n</div>', mentor: "`<div>` adalah elemen blok 
+        javascript: [
+            { desc: "Menampilkan pesan 'Halo Dunia' di konsol browser.", code: "console.log('Halo Dunia');", mentor: "`console.log` adalah teman terbaik developer untuk debugging. Biasakan menggunakannya." },
+            { desc: "Membuat variabel `nama` dan mengisinya dengan sebuah string.", code: "let nama = \"Budi\";", mentor: "Gunakan `let` untuk variabel yang nilainya bisa berubah. Gunakan tanda kutip untuk string." },
+            { desc: "Membuat fungsi `sapa` yang menampilkan pesan Halo.", code: "function sapa() {\n  console.log(\"Halo!\");\n}", mentor: "Fungsi adalah blok kode yang bisa digunakan kembali. Ini adalah konsep dasar pemrograman." },
+            { desc: "Membuat sebuah array berisi tiga nama buah.", code: "let buah = [\"Apel\", \"Mangga\", \"Jeruk\"];", mentor: "Array digunakan untuk menyimpan banyak nilai dalam satu variabel. Indeks dimulai dari 0." },
+            { desc: "Mengambil elemen dengan id 'judul' dari HTML.", code: "document.getElementById('judul');", mentor: "Ini adalah cara paling umum untuk menghubungkan JavaScript dengan elemen spesifik di HTML Anda." }
+        ]
+    };
+
+    // --- SELEKSI SEMUA ELEMEN DOM ---
+    const btnLearn = document.getElementById('btnLearn');
+    const btnTyping = document.getElementById('btnTyping');
+    const learnSection = document.getElementById('learnSection');
+    const typingSection = document.getElementById('typingSection');
+
+    // Elemen Belajar
+    const mentorText = document.getElementById('mentorText');
+    const languageSelectLearn = document.getElementById('languageSelectLearn');
+    const levelDiv = document.getElementById('levelDiv');
+    const levelSelect = document.getElementById('levelSelect');
+    const questionDiv = document.getElementById('questionDiv');
+    const questionDescription = document.getElementById('questionDescription');
+    const questionCode = document.getElementById('questionCode');
+    const answerInput = document.getElementById('answerInput');
+    const btnCheck = document.getElementById('btnCheck');
+    const feedback = document.getElementById('feedback');
+
+    // Elemen Tes Kecepatan
+    const languageSelectTyping = document.getElementById('languageSelectTyping');
+    const startCodingTestBtn = document.getElementById('startCodingTestBtn');
+    const codingTestSetup = document.getElementById('codingTestSetup');
+    const codingTestActive = document.getElementById('codingTestActive');
+    const timerDisplay = document.getElementById('timer');
+    const levelIndicator = document.getElementById('level-indicator');
+    const codingChallengeText = document.getElementById('codingChallengeText');
+    const typingInput = document.getElementById('typingInput');
+    const resultsScreen = document.getElementById('resultsScreen');
+    const finalSpeed = document.getElementById('finalSpeed');
+    const finalAccuracy = document.getElementById('finalAccuracy');
+    const finalLevels = document.getElementById('finalLevels');
+    const finalErrors = document.getElementById('finalErrors');
+    const tryAgainBtn = document.getElementById('tryAgainBtn');
+
+    let currentLanguage = '';
+    let currentLevel = -1;
+    let timerInterval = null;
+    
+    // --- FUNGSI UTAMA ---
+
+    function init() {
+        populateLanguageSelects();
+        addEventListeners();
+    }
+
+    function populateLanguageSelects() {
+        const languages = Object.keys(questions);
+        languageSelectLearn.innerHTML = '<option value="">-- Pilih Bahasa --</option>';
+        languageSelectTyping.innerHTML = '<option value="">-- Pilih Bahasa --</option>';
+        languages.forEach(lang => {
+            const option = document.createElement('option');
+            option.value = lang;
+            option.textContent = lang.charAt(0).toUpperCase() + lang.slice(1); // Capitalize
+            languageSelectLearn.appendChild(option.cloneNode(true));
+            languageSelectTyping.appendChild(option);
+        });
+    }
+
+    function addEventListeners() {
+        // Navigasi Tab
+        btnLearn.addEventListener('click', () => switchTab('learn'));
+        btnTyping.addEventListener('click', () => switchTab('typing'));
+
+        // Mode Belajar
+        languageSelectLearn.addEventListener('change', handleLanguageChange);
+        levelSelect.addEventListener('change', handleLevelChange);
+        btnCheck.addEventListener('click', checkAnswer);
+
+        // Mode Tes Kecepatan
+        languageSelectTyping.addEventListener('change', () => {
+            startCodingTestBtn.disabled = languageSelectTyping.value === '';
+        });
+        startCodingTestBtn.addEventListener('click', startTypingTest);
+        tryAgainBtn.addEventListener('click', resetTypingTest);
+    }
+
+    function switchTab(tab) {
+        if (tab === 'learn') {
+            learnSection.classList.remove('hidden');
+            typingSection.classList.add('hidden');
+            btnLearn.classList.add('active');
+            btnTyping.classList.remove('active');
+        } else {
+            typingSection.classList.remove('hidden');
+            learnSection.classList.add('hidden');
+            btnTyping.classList.add('active');
+            btnLearn.classList.remove('active');
+        }
+    }
+
+    // --- LOGIKA MODE BELAJAR ---
+
+    function handleLanguageChange(e) {
+        currentLanguage = e.target.value;
+        questionDiv.classList.add('hidden');
+        feedback.textContent = '';
+        feedback.className = '';
+        if (currentLanguage) {
+            levelSelect.innerHTML = '<option value="">-- Pilih Level --</option>';
+            questions[currentLanguage].forEach((_, index) => {
+                levelSelect.innerHTML += `<option value="${index}">Level ${index + 1}</option>`;
+            });
+            levelDiv.classList.remove('hidden');
+            mentorText.textContent = `Bagus! Anda memilih ${currentLanguage.toUpperCase()}. Sekarang pilih levelnya.`;
+        } else {
+            levelDiv.classList.add('hidden');
+            mentorText.textContent = 'Selamat datang! Pilih bahasa pemrograman dan level untuk memulai.';
+        }
+    }
+
+    function handleLevelChange(e) {
+        const selectedLevel = e.target.value;
+        if (selectedLevel !== '') {
+            currentLevel = parseInt(selectedLevel, 10);
+            displayQuestion(currentLanguage, currentLevel);
+        } else {
+            currentLevel = -1;
+            questionDiv.classList.add('hidden');
+        }
+    }
+    
+    function displayQuestion(lang, level) {
+        const q = questions[lang][level];
+        questionDescription.textContent = q.desc;
+        questionCode.textContent = q.code;
+        mentorText.textContent = q.mentor;
+        questionDiv.classList.remove('hidden');
+        answerInput.value = '';
+        feedback.textContent = '';
+        feedback.className = '';
+        answerInput.focus();
+    }
+
+    function checkAnswer() {
+        if (currentLanguage === '' || currentLevel === -1) return;
+
+        const correctAnswer = questions[currentLanguage][currentLevel].code.trim();
+        const userAnswer = answerInput.value.trim();
+
+        if (userAnswer === correctAnswer) {
+            feedback.textContent = '✅ Benar! Kode Anda cocok.';
+            feedback.className = 'correct';
+            mentorText.textContent = '🎉 Kerja bagus! Anda telah menguasai konsep ini. Silakan lanjut ke level berikutnya!';
+        } else {
+            feedback.textContent = '❌ Salah! Periksa kembali spasi, tanda baca, dan huruf besar/kecil.';
+            feedback.className = 'wrong';
+            mentorText.textContent = '💡 Hampir benar! Coba perhatikan lagi setiap detail kode.';
+        }
+    }
+
+    // --- LOGIKA MODE TES KECEPATAN ---
+    
+    function startTypingTest() {
+        codingTestSetup.classList.add('hidden');
+        resultsScreen.classList.add('hidden');
+        codingTestActive.classList.remove('hidden');
+
+        const selectedLang = languageSelectTyping.value;
+        const challenges = questions[selectedLang].map(q => q.code);
+        let currentChallengeIndex = 0;
+        let timeLeft = 60;
+        let totalChars = 0;
+        let totalErrors = 0;
+
+        const loadChallenge = () => {
+            if (currentChallengeIndex >= challenges.length) {
+                finishTest(); // Selesai lebih awal
+                return;
+            }
+            codingChallengeText.textContent = challenges[currentChallengeIndex];
+            levelIndicator.textContent = `Level ${currentChallengeIndex + 1}/${challenges.length}`;
+            typingInput.value = '';
+            typingInput.focus();
+        };
+        
+        typingInput.addEventListener('input', () => {
+            const currentChallenge = challenges[currentChallengeIndex];
+            const typedText = typingInput.value;
+            if (typedText === currentChallenge) {
+                totalChars += currentChallenge.length;
+                currentChallengeIndex++;
+                loadChallenge();
+            }
+        });
+
+        const finishTest = () => {
+            clearInterval(timerInterval);
+            codingTestActive.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+
+            const cpm = totalChars; // Karakter Per Menit (karena tes 1 menit)
+            finalSpeed.textContent = cpm;
+            finalLevels.textContent = currentChallengeIndex;
+            // Logika akurasi dan error bisa ditambahkan di sini jika diperlukan
+            finalAccuracy.textContent = 'N/A';
+            finalErrors.textContent = 'N/A';
+        };
+
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            if (timeLeft <= 0) {
+                finishTest();
+            }
+        }, 1000);
+
+        loadChallenge();
+    }
+
+    function resetTypingTest() {
+        clearInterval(timerInterval);
+        resultsScreen.classList.add('hidden');
+        codingTestSetup.classList.remove('hidden');
+        languageSelectTyping.value = '';
+        startCodingTestBtn.disabled = true;
+        timerDisplay.textContent = '01:00';
+    }
+
+    // --- INISIALISASI APLIKASI ---
+    init();
+});
+        
