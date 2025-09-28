@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Koding Cepat | Belajar & Uji Kecepatan Koding</title>
-    <link rel="stylesheet" href="./style.css"> 
+    <link rel="stylesheet" href="./style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -37,11 +37,15 @@
             </div>
             <div class="form-group">
                 <label for="languageSelectLearn">Pilih Bahasa:</label>
-                <select id="languageSelectLearn"></select>
+                <select id="languageSelectLearn">
+                    <option value="">-- Pilih Bahasa --</option>
+                </select>
             </div>
-            <div id="levelDiv" class="hidden">
+            <div id="levelDiv" class="form-group hidden">
                 <label for="levelSelect">Pilih Level:</label>
-                <select id="levelSelect"></select>
+                <select id="levelSelect">
+                     <option value="">-- Pilih Level --</option>
+                </select>
             </div>
             <div id="questionDiv" class="hidden">
                 <p id="questionDescription"></p>
@@ -65,18 +69,22 @@
                 </div>
                 <div class="form-group">
                     <label for="languageSelectTyping">Pilih Bahasa:</label>
-                    <select id="languageSelectTyping"></select>
+                    <select id="languageSelectTyping">
+                        <option value="">-- Pilih Bahasa --</option>
+                    </select>
                 </div>
-                <button id="startCodingTestBtn">Mulai Tes</button>
+                <button id="startCodingTestBtn" disabled>Mulai Tes</button>
             </div>
+
             <div id="codingTestActive" class="hidden">
                 <div class="test-header">
                     <div class="timer-display" id="timer">01:00</div>
                     <div id="level-indicator">Level 1/10</div>
                 </div>
-                <div id="codingChallengeText" aria-live="polite"></div>
+                <div id="codingChallengeText" class="challenge-text" aria-live="polite"></div>
                 <textarea id="typingInput" rows="8" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ketik kode yang ditampilkan di atas di sini..."></textarea>
             </div>
+
             <div id="resultsScreen" class="hidden">
                 <h3 class="results-title">Waktu Habis!</h3>
                 <div class="results-grid">
@@ -91,9 +99,9 @@
     </main>
 
     <footer>
-        <p>Dibuat oleh <strong>support2929</strong> | Versi 6.0 &copy; 2025</p>
+        <p>Dibuat oleh <strong>support2929</strong> | Versi 7.0 &copy; 2025</p>
     </footer>
-<script src="./script.js" defer></script>
+
+    <script src="./script.js" defer></script>
 </body>
-    </html>
-    
+</html>
