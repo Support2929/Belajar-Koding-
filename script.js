@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ],
         cpp: [
             { desc: "Program C++ dasar untuk mencetak teks.", code: '#include <iostream>\n\nint main() {\n  std::cout << "Halo C++!";\n  return 0;\n}', mentor: "C++ menggunakan stream (`std::cout`) untuk operasi output, yang lebih fleksibel daripada `printf` di C." },
-            { desc: "Deklarasi variabel string menggunakan library string.", code: '#include <string>\nstd::string nama = "Budi";', mentor: "Kelas `std::string` menyediakan banyak fungsi berguna untuk memanipulasi teks, membuatnya lebih aman dan mudah." },
+            { desc: "Deklarasi variabel string menggunakan library string.", code: '#include <string>\nstd::string nama = "Budi";', mentor: "Kelas `std::string` menyediakan banyak fungsi berguna untuk memanipuulasi teks, membuatnya lebih aman dan mudah." },
             { desc: "Menggunakan kondisi 'if' untuk membandingkan string.", code: 'if (nama == "Budi") {\n  std::cout << "Halo Budi!";\n}', mentor: "Berbeda dengan C, membandingkan string di C++ semudah menggunakan operator `==`." },
             { desc: "Loop 'for' sederhana untuk iterasi.", code: 'for (int i = 0; i < 3; ++i) {\n  std::cout << i << std::endl;\n}', mentor: "`std::endl` tidak hanya menyisipkan baris baru tetapi juga membersihkan buffer output. `\\n` seringkali lebih cepat." },
             { desc: "Membuat fungsi 'void' yang tidak mengembalikan nilai.", code: 'void sapa() {\n  std::cout << "Halo!";\n}', mentor: "Gunakan tipe `void` jika sebuah fungsi melakukan suatu aksi tetapi tidak perlu mengembalikan sebuah nilai." },
